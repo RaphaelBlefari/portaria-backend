@@ -28,18 +28,28 @@ steps:
   displayName: 'npm install and build'
 
 
-- script: |
-    executor --context $(Build.SourcesDirectory) --dockerfile Dockerfile --destination teste:123
-    buildah help
 
-    buildah bud -t portaria-backend:$(Build.BuildId) .
-    buildah login -u $(dockerHubUsername) -p $(dockerHubPassword)
-    buildah tag portaria-backend:$(Build.BuildId) $(dockerHubUsername)/portaria-backend:$(Build.BuildId)
-    buildah push $(dockerHubUsername)/portaria-backend:$(Build.BuildId)
-    ls
-    systemctl start docker
-    echo "Variável não secreta: $(dockerHubUsername)"
-    echo "Variável secreta está mapeada, mas não será visível no log: $dockerHubUsername"
+
+- script: |
+    buildah bud --format docker -t $(dockerHubUsername)/portaria-backend:$(Build.BuildId) .
+  displayName: 'Construir Imagem com Buildah'
+
+- script: |
+    buildah login --username $(dockerHubUsername) --password $(dockerHubPassword) docker.io
+    buildah push $(dockerHubUsername)/portaria-backend:$(Build.BuildId) docker://$(dockerHubUsername)/portaria-backend:$(Build.BuildId)
+
+# - script: |
+#     executor --context $(Build.SourcesDirectory) --dockerfile Dockerfile --destination teste:123
+#     buildah help
+
+#     buildah bud -t portaria-backend:$(Build.BuildId) .
+#     buildah login -u $(dockerHubUsername) -p $(dockerHubPassword)
+#     buildah tag portaria-backend:$(Build.BuildId) $(dockerHubUsername)/portaria-backend:$(Build.BuildId)
+#     buildah push $(dockerHubUsername)/portaria-backend:$(Build.BuildId)
+#     ls
+#     systemctl start docker
+#     echo "Variável não secreta: $(dockerHubUsername)"
+#     echo "Variável secreta está mapeada, mas não será visível no log: $dockerHubUsername"
   env:
     SECRET_VAR: $(dockerHubUsername)
   displayName: 'Print Variable'
