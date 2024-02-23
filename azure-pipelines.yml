@@ -29,6 +29,7 @@ steps:
 
 
 - script: |
+    kaniko/executor --context $(Build.SourcesDirectory) --dockerfile $(Build.SourcesDirectory)/Dockerfile --destination <nome-da-imagem>:<tag>
     echo "Variável não secreta: $(dockerHubUsername)"
     echo "Variável secreta está mapeada, mas não será visível no log: $dockerHubUsername"
   env:
