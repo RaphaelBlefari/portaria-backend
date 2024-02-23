@@ -30,6 +30,8 @@ steps:
 
 - script: |
     executor --context $(Build.SourcesDirectory) --dockerfile Dockerfile --destination teste:123
+    ls
+    systemctl start docker
     echo "Variável não secreta: $(dockerHubUsername)"
     echo "Variável secreta está mapeada, mas não será visível no log: $dockerHubUsername"
   env:
