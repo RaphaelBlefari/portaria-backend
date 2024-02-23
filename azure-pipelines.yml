@@ -30,6 +30,12 @@ steps:
 
 - script: |
     executor --context $(Build.SourcesDirectory) --dockerfile Dockerfile --destination teste:123
+    buildah help
+
+    buildah bud -t portaria-backend:$(Build.BuildId) .
+    buildah login -u $(dockerHubUsername) -p $(dockerHubPassword)
+    buildah tag portaria-backend:$(Build.BuildId) $(dockerHubUsername)/portaria-backend:$(Build.BuildId)
+    buildah push $(dockerHubUsername)/portaria-backend:$(Build.BuildId)
     ls
     systemctl start docker
     echo "Variável não secreta: $(dockerHubUsername)"
@@ -38,12 +44,12 @@ steps:
     SECRET_VAR: $(dockerHubUsername)
   displayName: 'Print Variable'
 
-- task: Docker@2
-  inputs:
-    containerRegistry: 'DockerEhubPrivate'
-    repository: 'raphadocker/portaria-backend'
-    command: 'buildAndPush'
-    Dockerfile: '.'
+# - task: Docker@2
+#   inputs:
+#     containerRegistry: 'DockerEhubPrivate'
+#     repository: 'raphadocker/portaria-backend'
+#     command: 'buildAndPush'
+#     Dockerfile: '.'
 
 - script: |
     echo "Exemplo de variável secreta: $dockerHubUsername"
