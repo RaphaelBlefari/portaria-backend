@@ -10,8 +10,7 @@ trigger:
 
 variables:
   group: ENV_GLOBAL
-  application:
-    name: portaria-backend
+  application-name: portaria-backend
 
 pool:
   name: k8s-azure-devops-agent
