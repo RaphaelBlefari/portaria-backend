@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-azure-devops-agent
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: k8s-azure-devops-agent
+  template:
+    metadata:
+      labels:
+        app: k8s-azure-devops-agent
+    spec:
+      containers:
+      - name: azure-devops-agent
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        securityContext:
+          privileged: true
+        env:
+        - name: AZP_URL
+          value: "{{ .Values.azp.url }}"
+        - name: AZP_TOKEN
+          value: "{{ .Values.azp.token }}"
+        - name: AZP_POOL
+          value: "{{ .Values.azp.pool }}"
+        - name: STORAGE_DRIVER
+          value: "vfs"

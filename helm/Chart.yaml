@@ -1,0 +1,4 @@
+apiVersion: v2
+name: k8s-azure-devops-agent
+description: Kubernetes Agent Azure Devops
+version: 1.0.0

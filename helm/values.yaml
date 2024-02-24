@@ -1,0 +1,12 @@
+
+
+deployment:
+  image:
+    repository: raphadocker/portaria-backend
+    pullPolicy: Always
+    tag: "74"
+
+azp:
+  url: "https://dev.azure.com/raphaelblefari"
+  token: "z2afyz2zbjrbancbvli36gcht3s2k6gai62jojwdjr353344ieka"
+  pool: "k8s-azure-devops-agent"
