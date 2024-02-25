@@ -71,6 +71,7 @@ steps:
     # docker login -u $(dockerHubUsername) -p $(dockerHubPassword)
     # docker tag portaria-backend:$(Build.BuildId) $(dockerHubUsername)/portaria-backend:$(Build.BuildId)
     # docker push $(dockerHubUsername)/portaria-backend:$(Build.BuildId)
+    "##vso[task.setvariable variable=imageTag]$Build.BuildId"
   displayName: 'Build and push Docker image'
 
 - script: echo "Build and Docker push completed"
