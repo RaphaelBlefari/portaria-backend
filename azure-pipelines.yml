@@ -8,11 +8,8 @@ trigger:
     include:
     - release/*
 
-
-##vso[release.updatereleasename]release name
-
 variables:
-  group: ENV_GLOBAL
+- group: ENV_GLOBAL
 
 pool:
   name: k8s-azure-devops-agent
