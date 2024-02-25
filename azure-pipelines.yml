@@ -39,33 +39,16 @@ steps:
 #     versionSpec: '17.x'
 #   displayName: 'Install Node.js'
 
-# - script: |
-#     docker help
-#     # npm install
-#     # npm run build
-#   displayName: 'npm install and build'
 
-# - script: |
-#     buildah bud --format docker -t $(dockerHubUsername)/portaria-backend:$(Build.BuildId) .
-#   displayName: 'Construir Imagem com Buildah'
 
-# - script: |
-#     buildah login --username $(dockerHubUsername) --password $(dockerHubPassword) docker.io
-#     buildah push $(dockerHubUsername)/portaria-backend:$(Build.BuildId) docker://$(dockerHubUsername)/portaria-backend:$(Build.BuildId)
-#   env:
-#     SECRET_VAR: $(dockerHubUsername)
-#   displayName: 'Print Variable'
+- script: |
+    buildah bud --format docker -t $(dockerHubUsername)/portaria-backend:$(Build.BuildId) .
+  displayName: 'Construir Imagem com Buildah'
 
-# # - task: Docker@2
-# #   inputs:
-# #     containerRegistry: 'DockerEhubPrivate'
-# #     repository: 'raphadocker/portaria-backend'
-# #     command: 'buildAndPush'
-# #     Dockerfile: '.'
-
-# - script: |
-#     echo "Exemplo de variável secreta: $dockerHubUsername"
-#   displayName: 'Build and push Docker image'
-
-# - script: echo "Build and Docker push completed"
-#   displayName: 'Completion message'
+- script: |
+    buildah login --username $(dockerHubUsername) --password $(dockerHubPassword) docker.io
+    buildah push $(dockerHubUsername)/portaria-backend:$(Build.BuildId) docker://$(dockerHubUsername)/portaria-backend:$(Build.BuildId)
+    echo "##vso[task.setvariable variable=imageTag]$Build.BuildId"
+  env:
+    SECRET_VAR: $(dockerHubUsername)
+  displayName: 'Print Variable'
