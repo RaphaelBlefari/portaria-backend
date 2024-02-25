@@ -40,10 +40,13 @@ steps:
 
 
 - script: |
+    echo "@@@@@@@@@@ Inicio Build Buildah"
     buildah bud --format docker -t $(dockerHubUsername)/portaria-backend:$(Build.BuildId) .
+    echo "@@@@@@@@@@ Fim Build Buildah"
   displayName: 'Construir Imagem com Buildah'
 
 - script: |
+    echo "@@@@@@@@@@ Inicio Login docker Buildah"
     buildah login --username $(dockerHubUsername) --password $(dockerHubPassword) docker.io
     buildah push $(dockerHubUsername)/portaria-backend:$(Build.BuildId) docker://$(dockerHubUsername)/portaria-backend:$(Build.BuildId)
     echo "##vso[task.setvariable variable=imageTag]$Build.BuildId"
