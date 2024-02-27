@@ -11,8 +11,6 @@ trigger:
 variables:
 - group: ENV_GLOBAL
 
-pool:
-  name: k8s-azure-devops-agent
 
 # pool:
 #   vmImage: ubuntu-latest
